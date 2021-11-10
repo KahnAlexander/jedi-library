@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
     Nav, 
     NavLink, 
@@ -6,20 +6,35 @@ import {
     NavMenu, 
     NavBtn, 
     NavBtnLink,
-    NavLinkMenuItem
+    NavLinkMenuItem,
+    NavBtnAlt
 } from './NavbarElements';
 import { Menu, MenuItem } from '@mui/material';
+import { useAuth } from '../../contexts/AuthContext';
+import { useHistory } from 'react-router-dom';
 
 const Navbar = (props) => {
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const history = useHistory();
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const handleLogOut = async () => {
+        try {
+            await logout();
+            history.push('/login');
+        } catch(e) {
+            console.log('Failed to log out!');
+            console.log(e);
+        }
+    }
+
+    const { currentUser, logout } = useAuth();
 
     return (
         <Nav>
@@ -47,10 +62,18 @@ const Navbar = (props) => {
                 {props.links.map(link => (<MenuItem key={link.title} onClick={handleClose}><NavLinkMenuItem to={link.path}>{link.title}</NavLinkMenuItem></MenuItem>))}
             </Menu>
             <NavMenu>
-                {props.links.map(link => (< NavLink key={link.title} to={link.path}>{link.title}</NavLink>))}
+                {props.links.map(link => (<NavLink key={link.title} to={link.path}>{link.title}</NavLink>))}
+                {currentUser && <NavLink key="dashboard" to='/dashboard'>Dashboard</NavLink>}
             </NavMenu>
             <NavBtn>
-                <NavBtnLink to="/signin">Sign In</NavBtnLink>
+                {
+                    currentUser
+                    ? <NavBtnAlt variant="contained" onClick={handleLogOut}>Log Out</NavBtnAlt>
+                    : <>
+                        <NavBtnLink to="/login">Log In</NavBtnLink>
+                        {/* <NavBtnLink to="/signup">Sign Up</NavBtnLink> */}
+                    </>
+                }
             </NavBtn>
         </Nav>
     )

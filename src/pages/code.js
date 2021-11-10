@@ -1,16 +1,38 @@
 import { useEffect, useState } from 'react';
-import { CircularProgress } from '@mui/material';
+import styled from 'styled-components'
+import { CircularProgress, ButtonGroup, Button, Box, Grid } from '@mui/material';
+import AppsIcon from '@mui/icons-material/Apps';
+import ListIcon from '@mui/icons-material/List';
 import ProjectCard from '../components/ProjectCard';
 import axios from 'axios';
 
-import Box from '@mui/material/Box';
+export const List = styled.div`
+    display: block;
+    align-items: center;
+    // margin-right: -24px;  
 
-let isLoading = false;
+    // margin-right: 24px;
+
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
+`
+
 
 const Code = () => {
 
     const [projects, setProjects] = useState([]);
     const [user, setUser] = useState('');
+    const [displayGrid, setDisplayGrid] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const handleGridClick = () => {
+        setDisplayGrid(true);
+    }
+
+    const handleListClick = () => {
+        setDisplayGrid(false);
+    }
 
     useEffect(() => {
 
@@ -50,27 +72,49 @@ const Code = () => {
             }
         }
 
-        isLoading = true;
+        setIsLoading(true);
         fetchProjects();
         fetchUserData();
-        isLoading = false;
+        setIsLoading(false);
     }, []);
 
     return (
-        <Box
-            sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            bgcolor: 'background.paper',
-            justifyContent: 'center',
-            alignContent: 'flex-start'
-        }}>
-            {
-                isLoading ? 
-                <CircularProgress /> : 
-                projects.map(project => <Box sx={{ p: 1, m: 1 }} key={project.name}><ProjectCard project={project} user={user}></ProjectCard></Box>)
-            }
-        </Box>
+        <>
+            <ButtonGroup variant="outlined" sx={{float: 'right', marginRight: 20, marginBottom: 1 }}>
+                <Button onClick={handleGridClick}>
+                    <AppsIcon />
+                </Button>
+                <Button onClick={handleListClick}>
+                    <ListIcon />
+                </Button>
+            </ButtonGroup>
+
+            <Grid 
+                container 
+                spacing={2} 
+                pl={4} pr={2} 
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center'
+                }}
+            >
+                { isLoading 
+                    ? <CircularProgress /> 
+                    : projects.map(project => 
+                        displayGrid 
+                        ? <Grid item xs={12} md={4} lg={2} mb={2}>
+                            <ProjectCard cardStyle='grid' project={project} user={user} />
+                        </Grid>
+                        : <Grid item xs={12} mb={2} pb={2} sx={{
+                            display: 'flex',
+                            justifyContent: 'center'
+                        }}>
+                            <ProjectCard cardStyle='list' project={project} user={user} />
+                        </Grid>
+                    )
+                }
+            </Grid>
+        </>
     )
 }
 

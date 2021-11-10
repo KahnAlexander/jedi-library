@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { NavLink as Link} from 'react-router-dom'
 import { FaBars } from 'react-icons/fa'
+import Button from '@mui/material/Button';
 
 export const Nav = styled.nav`
     background: #212224;
@@ -94,7 +95,27 @@ export const NavBtnLink = styled(Link)`
     transition: all 0.2s ease-in-out;
     text-decoration: none;
 
-    // margin-left: 24px;
+    margin-left: 8px;
+
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        background: #fff;
+        color: #010606;
+    }
+`
+
+export const NavBtnAlt = styled(Button)`
+    border-radius: 4px;
+    background: #256ce1;
+    padding: 10px 22px;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+
+    margin-left: 8px;
 
     &:hover {
         transition: all 0.2s ease-in-out;

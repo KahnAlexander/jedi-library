@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import LibrarySection from '../components/LibrarySection';
+import { useDatabase } from '../contexts/DatabaseContext';
+import { useAuth } from '../contexts/AuthContext';
+import { Button, CircularProgress, Card, CardHeader, CardContent } from '@mui/material';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,27 +14,85 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center'
   },
   child: {
-    width: '70%'
+    width: '80%'
+  },
+  addButton: {
+    marginLeft: '4vw',
+    marginTop: '25px'
   }
 }));
 
 const Library = () => {
     const classes = useStyles();
-    const sections = [
-        { title: 'Javascript', description: 'Web scripting language, experience from common web JS Frameworks' },
-        { title: 'ReactJS', description: "Javascript web framework" },
-        { title: 'Salesforce LWC', description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.' },
-        { title: 'Salesforce Aura', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto sunt' },
-        { title: 'Java', description: ' veniam aperiam dignissimos quaerat atque accusantium est reiciendis numqua' },
-        { title: 'Python', description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. ', disabled: true },
-        { title: 'C', description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. ', disabled: true }
-    ];
+    const [knowledge, setKnowledge] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const history = useHistory();
+
+    const { 
+      createKnowledge,
+      readAllKnowledge 
+    } = useDatabase();
+
+    const handleAddKnowledge = async () => {
+      const newKey = await createKnowledge();
+      history.push({
+        pathname: '/knowledgeItem/' + newKey,
+        item: {
+          title: '',
+          description: '',
+          content: [],
+          uses: [],
+          disabled: true,
+          key: newKey,
+          comfort: 0
+        } 
+      }); 
+    }
+
+    useEffect(() => {
+      let knowledgeList = [];
+      readAllKnowledge((res) => {
+        for (const [key, value] of Object.entries(res)) {
+          knowledgeList.push({
+            ...value,
+            key: key
+          });
+        }
+        setKnowledge(knowledgeList);
+        setIsLoading(false);
+      });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const { currentUser } = useAuth();
 
     return (
         <div className={classes.root}>
-            <div className={classes.child}>
-                {sections.map((section) => section.disabled ? <LibrarySection title={section.title} description={section.description} key={section.title} disabled expanded={section.expanded}></LibrarySection> : <LibrarySection title={section.title} description={section.description} key={section.title}></LibrarySection>)}
-            </div>
+          {
+            isLoading 
+            ? <CircularProgress sx={{marginTop: 10}} />
+            : <div className={classes.child}>
+                <Card sx={{backgroundColor: '#363739', p: 2}}>
+                  <CardHeader 
+                    title="Library of Skills" 
+                    titleTypographyProps={{color: '#fff'}} 
+                    subheader="A library of my technical skills and relevant information regarding each topic. Skill meters indicate my comfort level with each topic" 
+                    subheaderTypographyProps={{color: '#bbb'}} 
+                  />
+                  <CardContent>{
+                    knowledge && knowledge.length 
+                    ? knowledge.map((section) => 
+                      <LibrarySection 
+                        data={section}
+                        key={section.key}>
+                      </LibrarySection>
+                    )
+                    : <h2>No info found! Please refresh the page or yell at Alex to fix this.</h2>
+                  }</CardContent>
+                  { currentUser && <Button variant="contained" color="primary" onClick={handleAddKnowledge} className={currentUser ? classes.addButton : ''}>Add Knowledge</Button> }
+                </Card>
+              </div>
+          }
         </div>
     )
 }

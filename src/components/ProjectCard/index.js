@@ -9,10 +9,11 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
+// import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Badge from '@mui/material/Badge';
+import Box from '@mui/material/Box';
 
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -35,7 +36,8 @@ const ExpandMore = styled((props) => {
 
 const useStyles = makeStyles((theme) => ({
   lang: {
-    marginLeft: 25
+    justifyContent: 'center',
+    display: 'flex'
   }
 }));
 
@@ -71,35 +73,35 @@ export default function ProjectCard(props) {
   }
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ width: props.cardStyle == 'grid' ? '350' : '75%' }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={props.user.avatar_url}></Avatar>
+          <Avatar aria-label="recipe" src={props.user.avatar_url}></Avatar>
         }
         action={
           <>
             <IconButton 
-                aria-label="settings"
-                id="basic-button"
-                aria-controls="basic-menu"
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={handleClick}
+              aria-label="settings"
+              id="basic-button"
+              aria-controls="basic-menu"
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
             >
-                <MoreVertIcon />
+              <MoreVertIcon />
             </IconButton>
             <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                'aria-labelledby': 'basic-button',
-                }}
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+              'aria-labelledby': 'basic-button',
+              }}
             >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={handleClose}>Logout</MenuItem>
             </Menu>
         </>
         }
@@ -112,10 +114,21 @@ export default function ProjectCard(props) {
         alt="Git avatar"
       /> */}
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          <br/>
-          {props.project.description}
-        </Typography>
+        {/* {
+          props.cardStyle === 'grid'
+          ? 
+          : 
+        } */}
+        <Box className={classes.lang}><Badge badgeContent={props.project.language} color="info"></Badge></Box>
+        { 
+          props.project.description 
+          ? <Typography variant="body2" color="text.secondary">
+              <br/>
+              <br/>
+              {props.project.description}
+            </Typography> 
+          : <></>
+        }
       </CardContent>
       
       <CardActions disableSpacing>
@@ -125,7 +138,6 @@ export default function ProjectCard(props) {
         <IconButton aria-label="Link to project" title="Link to project">
           <LanguageIcon />
         </IconButton>
-        <Badge badgeContent={props.project.language} color="info" className={classes.lang}></Badge>
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
