@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/static/css/main.9d101d3a.chunk.css",
-    "main.js": "/static/js/main.1a64d570.chunk.js",
-    "main.js.map": "/static/js/main.1a64d570.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.ab809ad1.js",
-    "runtime-main.js.map": "/static/js/runtime-main.ab809ad1.js.map",
-    "static/js/2.18ed0159.chunk.js": "/static/js/2.18ed0159.chunk.js",
-    "static/js/2.18ed0159.chunk.js.map": "/static/js/2.18ed0159.chunk.js.map",
-    "static/js/3.b6273a4c.chunk.js": "/static/js/3.b6273a4c.chunk.js",
-    "static/js/3.b6273a4c.chunk.js.map": "/static/js/3.b6273a4c.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/main.9d101d3a.chunk.css.map": "/static/css/main.9d101d3a.chunk.css.map",
-    "static/js/2.18ed0159.chunk.js.LICENSE.txt": "/static/js/2.18ed0159.chunk.js.LICENSE.txt",
-    "static/media/KahnResume.96afb35e.pdf": "/static/media/KahnResume.96afb35e.pdf",
-    "static/media/headshot.JPG": "/static/media/headshot.9743f5cc.JPG"
+    "main.css": "/jedi-library/static/css/main.9d101d3a.chunk.css",
+    "main.js": "/jedi-library/static/js/main.1a64d570.chunk.js",
+    "main.js.map": "/jedi-library/static/js/main.1a64d570.chunk.js.map",
+    "runtime-main.js": "/jedi-library/static/js/runtime-main.c8c7b18c.js",
+    "runtime-main.js.map": "/jedi-library/static/js/runtime-main.c8c7b18c.js.map",
+    "static/js/2.2c57010a.chunk.js": "/jedi-library/static/js/2.2c57010a.chunk.js",
+    "static/js/2.2c57010a.chunk.js.map": "/jedi-library/static/js/2.2c57010a.chunk.js.map",
+    "static/js/3.b6273a4c.chunk.js": "/jedi-library/static/js/3.b6273a4c.chunk.js",
+    "static/js/3.b6273a4c.chunk.js.map": "/jedi-library/static/js/3.b6273a4c.chunk.js.map",
+    "index.html": "/jedi-library/index.html",
+    "static/css/main.9d101d3a.chunk.css.map": "/jedi-library/static/css/main.9d101d3a.chunk.css.map",
+    "static/js/2.2c57010a.chunk.js.LICENSE.txt": "/jedi-library/static/js/2.2c57010a.chunk.js.LICENSE.txt",
+    "static/media/KahnResume.96afb35e.pdf": "/jedi-library/static/media/KahnResume.96afb35e.pdf",
+    "static/media/headshot.JPG": "/jedi-library/static/media/headshot.9743f5cc.JPG"
   },
   "entrypoints": [
-    "static/js/runtime-main.ab809ad1.js",
-    "static/js/2.18ed0159.chunk.js",
+    "static/js/runtime-main.c8c7b18c.js",
+    "static/js/2.2c57010a.chunk.js",
     "static/css/main.9d101d3a.chunk.css",
     "static/js/main.1a64d570.chunk.js"
   ]
